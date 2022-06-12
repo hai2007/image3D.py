@@ -1,0 +1,10 @@
+AUTHORS.txt
+LICENSE
+README.md
+setup.py
+image3d/__init__.py
+image3d.egg-info/PKG-INFO
+image3d.egg-info/SOURCES.txt
+image3d.egg-info/dependency_links.txt
+image3d.egg-info/requires.txt
+image3d.egg-info/top_level.txt
