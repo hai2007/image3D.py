@@ -26,7 +26,7 @@ pip install --upgrade twine
 
 这样，我们的前置工作就准备好了。
 
-## 打包
+### 打包
 
 在setup.py的同级目录下运行以下命令：
 
@@ -34,7 +34,7 @@ pip install --upgrade twine
 python setup.py sdist
 ```
 
-## 发布
+### 发布
 
 然后运行：
 
@@ -42,7 +42,7 @@ python setup.py sdist
 twine upload dist/*
 ```
 
-## 使用
+### 使用
 
 ```
 pip install image3d
