@@ -1,0 +1,45 @@
+.page-view {
+    white-space: nowrap;
+    &>* {
+        display: inline-block;
+        vertical-align: top;
+        height: calc(100vh - 50px);
+        overflow: auto;
+        white-space: normal;
+    }
+
+    &>ul {
+        width: 260px;
+        padding: 20px 0;
+
+        span {
+            cursor: pointer;
+            display: block;
+            line-height: 1.8em;
+            font-size: 14px;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        li {
+            margin-left: 20px;
+        }
+    }
+
+    &>div {
+        width: calc(100vw - 260px);
+
+        &>h2 {
+            font-size: 20px;
+        }
+
+        a {
+            text-indent: 0;
+            color: #058fbc;
+            text-decoration: underline;
+            padding: 0 10px;
+        }
+    }
+}

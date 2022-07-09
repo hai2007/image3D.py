@@ -1,0 +1,114 @@
+<template class="page-view">
+    <ul>
+        <li>
+            <span @click="doScroll('Camera')">照相机</span>
+            <ul>
+                <li>
+                    <span @click="doScroll('Camera-set')">基本设置</span>
+                </li>
+                <li>
+                    <span @click="doScroll('Camera-size')">比例设置</span>
+                </li>
+                <li>
+                    <span @click="doScroll('Camera-wtgb')">物体的改变</span>
+                </li>
+                <li>
+                    <span @click="doScroll('Camera-xjgb')">相机的改变</span>
+                </li>
+                <li>
+                    <span @click="doScroll('Camera-use')">使用</span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div class="doc-view" id="root-view">
+        <h2 id='fixed-Camera'>照相机</h2>
+        <pre q-code>
+from image3d import Camera
+
+# 获取相机实例
+camera = Camera.Render(width, height, options = {})
+        </pre>
+        <h3 id='fixed-Camera-set'>基本设置</h3>
+        <p>
+            默认的时候，Z轴承的方向是朝里的，你可以通过下面的配置项进行校对：
+        </p>
+        <pre q-code>
+# 默认false
+options["proof"] = boolean
+        </pre>
+        <p>
+            我们在传递数据的时候，不能保证坐标的值一定在"-1 ~ 1"之间，你可以通过设置下面配置项来控制显示范围：
+        </p>
+        <pre q-code>
+# 默认1
+options["size"] = number
+        </pre>
+        <h3 id='fixed-Camera-size'>比例设置</h3>
+        <p>
+            在有些时候，我们的画布可能不是正方形，此时，就需要设置宽和高度比例了：
+        </p>
+        <pre q-code>
+# 默认1
+camera.setProportion(val)
+        </pre>
+        <p>
+            传递的值val就是宽和高度比，也就是：
+        </p>
+        <pre q-code>
+            val = width / height
+        </pre>
+        <p>
+            温馨提示：如果绘制后画布大小未改变，程序会自动计算宽高比，此处无需设置。
+        </p>
+        <h3 id='fixed-Camera-wtgb'>物体的改变</h3>
+        <pre q-code>camera.rotateBody(deg, a1, b1, c1, a2, b2, c2)</pre>
+        <p>
+            围绕射线(a1, b1, c1) → (a2, b2, c2)旋转物体deg度（方向由右手法则确定），a1、b1、c1、a2、b2和c2这6个值在设置的时候，不是一定需要全部设置，还有以下可选：
+        </p>
+        <ol>
+            <li>
+                只设置了a1和b1，表示在xoy平面围绕（a1, b1）旋转。
+            </li>
+            <li>
+                设置三个点(设置不足六个点都认为只设置了三个点)，表示围绕从原点出发的射线旋转。
+            </li>
+        </ol>
+        <pre q-code>camera.moveBody(dis, a, b, c)</pre>
+        <p>
+            沿着向量(a, b, c)方向移动物体距离dis（其中c可以不传，默认0）。
+        </p>
+        <pre q-code>camera.scaleBody(xTimes, yTimes, zTimes, cx, cy, cz)</pre>
+        <p>
+            以点(cx, cy, cz)为中心，分别在x、y和z方向上缩放xTimes、yTimes和zTimes倍（其中cx、cy和cz都可以不传递，默认0）物体。
+        </p>
+        <h3 id='fixed-Camera-xjgb'>相机的改变</h3>
+        <pre q-code>camera.rotateEye(deg, a1, b1, c1, a2, b2, c2)</pre>
+        <p>
+            和物体的改变中的旋转类似，不同的是这里旋转的是相机。
+        </p>
+        <pre q-code>camera.moveEye(dis, a, b, c)</pre>
+        <p>
+            沿着向量(a, b, c)方向移动相机距离dis（其中c可以不传，默认0）。
+        </p>
+        <h3 id='fixed-Camera-use'>使用</h3>
+        <pre q-code>matrix4=camera.value()</pre>
+        <p>
+            所有的操作最终通过这个方法获取列优先4x4矩阵，后续你需要在顶点着色器中使用即可。
+        </p>
+    </div>
+</template>
+<script>
+    import fixedScroll from '../service/fixedScroll.js';
+    export default {
+        methods: {
+            doScroll(fixedName) {
+                window.location.href = (window.location.href + "").replace(/\?fixed=.*$/, '') + "?fixed=" + fixedName;
+                fixedScroll(fixedName);
+            }
+        },
+        mounted() {
+            fixedScroll(this.$urlFormat().params.fixed);
+        }
+    };
+</script>

@@ -1,0 +1,103 @@
+<template>
+    <header>
+        <h2>image3D for Python3+</h2>
+        <ul>
+            <li @click="loadPage('home')" :active="pageName=='home'?'yes':'no'">
+                主页
+            </li>
+            <li @click="loadPage('how-to-use')" :active="pageName=='how-to-use'?'yes':'no'">
+                快速开始
+            </li>
+            <li @click="loadPage('calc')" :active="pageName=='calc'?'yes':'no'">
+                辅助计算
+            </li>
+        </ul>
+        <div class="search">
+            <ui-search></ui-search>
+        </div>
+    </header>
+    <div>
+        <component :is='pageObj' />
+    </div>
+</template>
+<script>
+    import uiSearch from './components/ui-search.paper';
+    import pages from './pages/lazy-load.js';
+
+    export default {
+        data() {
+            return {
+                pageObj: null,
+                pageName: ""
+            };
+        },
+        mounted() {
+
+            let pageName = this.$urlFormat().router[0];
+            if (!pages[pageName]) { pageName = 'home'; }
+            this.pageName = pageName;
+
+            // 打开
+            this.loadPage();
+
+        },
+        methods: {
+            loadPage(pageName) {
+                if (pageName) {
+                    this.pageName = pageName;
+                    window.location.href = "#/" + pageName;
+                }
+                pages[this.pageName]().then(data => {
+                    this.pageObj = data.default;
+                });
+            }
+        },
+        component: {
+            uiSearch
+        }
+    };
+</script>
+<style lang="scss">
+    [quickpaper] {
+        header {
+            border-bottom: 1px solid #d6cdcd;
+            line-height: 50px;
+            position: relative;
+
+            &>* {
+                display: inline-block;
+                vertical-align: top;
+            }
+
+            &>h2 {
+                font-size: 16px;
+                padding-left: 60px;
+                background-image: url('./image/logo.png');
+                background-repeat: no-repeat;
+                background-position: 10px center;
+                background-size: auto 80%;
+            }
+
+            &>ul {
+                padding-left: 50px;
+
+                &>li {
+                    display: inline-block;
+                    line-height: 1em;
+                    padding: 10px;
+                    cursor: pointer;
+                    margin: 0 10px;
+
+                    &[active='yes'] {
+                        border-bottom: 1px solid red;
+                    }
+                }
+            }
+
+            &>.search {
+                position: absolute;
+                right: 10px;
+            }
+        }
+    }
+</style>
