@@ -4,7 +4,7 @@
 .vscode
 node_modules
 dist
-image2d.egg-info
+image3d.egg-info
 build
-!docs/dist
+!docs/build
 __pycache__
